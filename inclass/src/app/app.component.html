@@ -1,0 +1,18 @@
+
+<app-form></app-form>
+
+<div>
+  <button type="button" (click)="fetchDogImages()">Get Dogs As Observable</button>
+  <button type="button" (click)="fetchDogImageAsPromise()">Get Dogs As Promise</button>
+  <button type="button" (click)="fetchDogImageAsPromiseArray()">Get Dogs As Promise Array</button>
+
+</div>
+
+<hr>
+
+@for (img of dogImages; track img) {
+  <div style ="margin-bottom: 4px;">
+    <img [src]="img" alt="">
+  </div>
+}
+

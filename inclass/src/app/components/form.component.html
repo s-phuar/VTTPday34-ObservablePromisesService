@@ -1,0 +1,40 @@
+<h2>Form</h2>
+
+
+
+<hr>
+
+<!-- only thing dog related -->
+<ol>
+    @for (i of images; track $index) {
+        <li>    
+            <a [href]="i">{{i}}</a>
+        </li>
+    }
+</ol>
+
+
+<form [formGroup]="form">
+    
+    <div>
+        <td>Name:</td>
+        <td><input type="text" formControlName="name"></td>
+    </div>
+
+    <div>
+        <td>Address: </td>
+        <td><input type="text" formControlName="address"></td>
+    </div>
+
+    <div>
+        <button type="button" (click)="pushData()">Push Data</button>
+    </div>
+
+
+    <ul>
+        <li>Invalid: {{form.invalid}}</li>
+    </ul>
+
+
+</form>
+

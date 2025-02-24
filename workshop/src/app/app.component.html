@@ -1,0 +1,10 @@
+
+<app-form (newQuery)="processQuery($event)"></app-form>
+
+
+@for (item of giphyURLS; track item) {
+
+    <div style ="margin-bottom: 4px;">
+        <img src={{item}}>
+      </div>
+}
