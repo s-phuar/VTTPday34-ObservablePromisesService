@@ -10,14 +10,12 @@ export class DogService{
     //Autowired httpclient, RESTtemplate
     private http = inject(HttpClient)
 
-
-    //for fetching the url to display as string
+    //for fetching the url to display as string (for form component only)
     newDogSearch = new Subject<string []>()
-
 
     //returns an observable in the format of DogResult model
     //consumer of this method must subscribe to see results
-    getDogs(count =3): Observable<DogResults>{
+    getDogs(count = 3): Observable<DogResults>{
         return this.http.get<DogResults>(`https://dog.ceo/api/breeds/image/random/${count}`)
     }
 
@@ -30,10 +28,10 @@ export class DogService{
 
     //get a string [] instead with pipes, transforming data with pipes
     getDogsAsPromiseArray(count = 3): Promise<string []>{
-        //convert observable -> promise, we can only take the 1st or last bit of the observable
+        //convert observable -> promise, we can only take the 1st or last bit of the observable stream
 
         //OBSERVABLE
-        // //manipulate observable with pipe, extract the message array from result
+        // //manipulate observable with pipe, extract the message array from result, then get first value
         // return firstValueFrom(
         //     this.http.get<DogResults>(`https://dog.ceo/api/breeds/image/random/${count}`)
         //      .pipe(
@@ -41,7 +39,7 @@ export class DogService{
         // ))
 
         //PROMISE
-        //convert observable into a promise with firstValueFrom and handle it using then and catch
+        //convert observable into a promise with firstValueFrom and transform the promise using then and catch
         return firstValueFrom(
             this.http.get<DogResults>(`https://dog.ceo/api/breeds/image/random/${count}`)
             ).then(result => {

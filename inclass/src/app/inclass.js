@@ -1,6 +1,6 @@
 
 
-  //good for having an order to dependent statements
+  //promise is good for having an order to dependent statements
   //like a large if else tree
 
   let p = new Promise(
@@ -8,28 +8,28 @@
       //resolve and reject are both functions
       //they are the outcomes when you perform your task. If successful, call resolve else reject
       //sleep timer
-      setTimeout(() => {
+      setTimeout(() => { //performs below 3(2 due to below comment) lines after 5 seconds
         console.info('COMPLETED')
-        resolve('task is successful') //cannot un resolve and resolved task
+        resolve('task is successful') //cannot un-resolve and reject task and vice versa
         reject('task has failed')
       }, 5000)
     })
 
     //resolve calls this function on success
     p
-    .then(result =>{
-      console.info('>>> promise resolved: ', result)
+    .then(resultXDXD =>{
+      console.info('>>> promise resolved: ', resultXDXD) //result is 'task is succesful'
       return 'this is another reults' //whatever you return in then block becomes a promise
     })
-    .then(result =>{
-      console.info('second promise: ', result)
+    .then(resultXDXD =>{
+      console.info('second promise: ', resultXDXD)
         //throw 'this is an error from the 2nd promise'
           //jumps straight to catch block, if there nos catch block node.js handles it with its own exception
 
       return 123
-    }).then(result =>{
-      console.info('third promise value: ', result)
+    }).then(resultXDXD =>{
+      console.info('third promise value: ', resultXDXD)
     })
-    .catch(error =>{console.info('>>> promise has failed: ', error)})
+    .catch(errorXDXD =>{console.info('>>> promise has failed: ', errorXDXD)})
 
     console.info('>>> p =', p)

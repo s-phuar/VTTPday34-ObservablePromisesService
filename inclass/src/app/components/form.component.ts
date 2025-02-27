@@ -12,7 +12,9 @@ import { DogService } from '../dog.service';
 export class FormComponent implements OnInit, OnDestroy{
 
   private fb = inject(FormBuilder)
+  //dog related
   private dogSvc = inject(DogService)
+  images: string[] = []
 
   protected form !: FormGroup
   // catch the subscription
@@ -24,8 +26,9 @@ export class FormComponent implements OnInit, OnDestroy{
 
   //demo statuschange with button
   count = 0
-  images: string[] = []
 
+  //a subject is a type of observable, it can emit values and have subscribe listen to it
+  //events are NOT observables
   private counterSub = new Subject<number>()
 
   //we pushdata into a subject via next, data is pushed out via observable and witnessed by subscribe
@@ -35,51 +38,62 @@ export class FormComponent implements OnInit, OnDestroy{
   }
 
 
-
-
   ngOnInit(): void {
+    //1. simple example of setTimeout for non-blocking behaviour, see console output
+    console.log("Start");
+
+    setTimeout(() => {
+      console.log("This runs after 2 seconds");
+    }, 2000);  // 2 seconds delay
+    
+    console.log("End");
+
+    //2. regular form init
     this.form = this.fb.group({
       name: this.fb.control<string>('', [Validators.required, Validators.minLength(5)]),
       address: this.fb.control<string>('', [Validators.required, Validators.minLength(5)])
+    })
 
-    })  
+    //3. subsribe to counter pusher
+    this.statusSub2 = this.counterSub.subscribe({
+      next: (dataName) => {console.info('>>> next: ', dataName)}
+    })
 
-  //ONLY thing dog related
-  this.statusSub3 = this.dogSvc.newDogSearch.subscribe(
-    (images) => this.images = images
-  )
+    //4. listens to form status changes as stream
+      //observable that emits the status "changes" of the form (VALID, INVALID, PENDING, DISABLED)
+    this.statusSub = this.form.statusChanges
+      .pipe( //pipe will chain debounce and map operators
+        debounceTime(2000), //debounce prevents too many calls to the back end, only calls 2 seconds after last change
+        map( value => value =="VALID")//status value is mapped to boolean
+      )
+      .subscribe(
+        (changes) => {
+          console.info('>>> changes: ', changes) //output validity status of the form
+        }
+      )
 
-
-  this.statusSub2 = this.counterSub.subscribe({
-    next: (data) => {console.info('>>> next: ', data)}
-  })
-
-
-  this.statusSub = this.form.statusChanges
-    .pipe(
-      debounceTime(2000), //value below comes immediately, changes comes 2 seconds later. Other uses like staggering calls to the backend
-      map( value => value =="VALID")
-    )
-    .subscribe(
-      (changes) => {
-        console.info('>>> changes: ', changes)
+    //listens to form value changes as stream, updates console constantly
+    this.sub = this.form.valueChanges.subscribe({
+      next: (valueXD) => {
+        console.info('>> value: ', valueXD)
+      },
+      error:(errXD) =>{
+        console.error('>>> error: ', errXD)
+      },
+      complete: () => {
+        console.info('>>> completed')
       }
+    })
+
+
+    //ONLY thing dog related
+    this.statusSub3 = this.dogSvc.newDogSearch.subscribe(
+      (images) => this.images = images
     )
 
-
-  //stream of data
-  this.sub = this.form.valueChanges.subscribe({
-    next: (value) => {
-      console.info('>> value: ', value)
-    },
-    error:(err) =>{
-      console.error('>>> error: ', err)
-    },
-    complete: () => {
-      console.info('>>> completed')
-    }
-  })
   }
+
+  
 
   ngOnDestroy(): void {
     //unsub when the component is destroyed
