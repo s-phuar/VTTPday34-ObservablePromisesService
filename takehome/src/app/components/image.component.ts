@@ -16,6 +16,7 @@ export class ImageComponent implements OnInit, OnDestroy{
   private sub!: Subscription
   images: string[] = []
 
+  //listens for observable 'searchResults' from giphy service
   ngOnInit(): void {
     this.sub = this.giphySvc.searchResults.subscribe({
       next:(images) =>this.images = images

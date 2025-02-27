@@ -24,7 +24,7 @@ export class FormComponent implements OnInit{
     this.searchForm = this.createSearchForm()
   }
 
-  //grab current state of the form, giphySvc search
+  //grab current state of the form, invokes giphySvc search
   protected search(){
     const criteria: SearchCriteria = this.searchForm.value 
     console.info('>>> criteria: ', criteria)

@@ -17,6 +17,7 @@ export class GiphyService{
     }
 
 
+    //last tap first event to image component
     search(criteria: SearchCriteria): Promise<string[]> {
         const params = new HttpParams()
             .set('api_key', this.API_KEY)
