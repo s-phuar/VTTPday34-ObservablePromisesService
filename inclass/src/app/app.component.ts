@@ -68,6 +68,7 @@ export class AppComponent {
     //subscribe to status and value changes observable stream
     //observable and completion
     //promise as a single result
+    //pipes to chain operators (map etc.)
 
 
 
