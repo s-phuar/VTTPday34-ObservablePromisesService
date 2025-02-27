@@ -23,7 +23,7 @@ export class AppComponent {
   processQuery($event: QueryParams){
     console.info('.....processing')
     this.giphyService.searchGIF($event)
-    .then (result => { //result should be the data jsonarray
+    .then (result => { //result should be the entire inital object
       console.info('>>> DATA received: ', result)
       result.data.forEach((gif) => { //for each referring to each json obj(gif) inside the data jsonarray
         const fixedHeightUrl = gif?.images?.fixed_height?.url
